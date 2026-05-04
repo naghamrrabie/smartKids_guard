@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smartkids_gurad/core/resources/colors_manager.dart';
-import '../../core/resources/assets_manager.dart';
-import '../../core/routes_manager.dart' show RoutesManager;
+import 'package:smartkids_gurad/core/resources/assets_manager.dart';
+import 'package:smartkids_gurad/core/routes_manager.dart' show RoutesManager;
+import 'package:smartkids_gurad/core/widgets/auth_card_container.dart';
+import 'package:smartkids_gurad/core/widgets/custom_primary_button.dart';
 
 class MobileNumConfirmed extends StatelessWidget {
   const MobileNumConfirmed({super.key});
@@ -23,7 +25,7 @@ class MobileNumConfirmed extends StatelessWidget {
 
         child: SafeArea(
           // =========================
-          // نفس نظام الـ Responsive اللي عندك (علشان يطابق الفيجما)
+          // نفس نظام الـ Responsive اللي عندك
           // =========================
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -34,13 +36,12 @@ class MobileNumConfirmed extends StatelessWidget {
                     child: Column(
                       children: [
                         // =========================
-                        // الكارد الأساسي (يكبر/يصغر تلقائي)
+                        // الكارد الأساسي
                         // =========================
                         Expanded(
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: Padding(
-                              // مسافة بسيطة من فوق
                               padding: EdgeInsets.only(
                                 top: MediaQuery.of(context).size.height * 0.03,
                               ),
@@ -50,41 +51,17 @@ class MobileNumConfirmed extends StatelessWidget {
                                 height:
                                 MediaQuery.of(context).size.height * 0.83,
 
-                                // =========================
-                                // يحافظ على مقاسات الفيجما بدون تشويه
-                                // =========================
                                 child: FittedBox(
                                   fit: BoxFit.contain,
                                   child: SizedBox(
-                                    // =========================
-                                    // مقاس الكارد الأصلي في Figma
-                                    // =========================
                                     width: 307,
                                     height: 665,
-                                    child: Container(
-                                      // بادينج داخلي للكارد
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 22,
-                                        vertical: 22,
-                                      ),
 
-                                      // شكل الكارد (زوايا + ظل)
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(24),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                            Colors.black.withOpacity(0.08),
-                                            blurRadius: 30,
-                                            offset: const Offset(0, 14),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // =========================
-                                      // محتوى الكارد
-                                      // =========================
+                                    // =========================
+                                    // استخدمنا AuthCardContainer
+                                    // بدل الـ Container الأبيض المتكرر
+                                    // =========================
+                                    child: AuthCardContainer(
                                       child: Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.center,
@@ -100,15 +77,12 @@ class MobileNumConfirmed extends StatelessWidget {
                                             child: Stack(
                                               alignment: Alignment.center,
                                               children: [
-                                                // الخلفية (Group)
                                                 Image.asset(
                                                   ImageAssets.group,
                                                   width: 110,
                                                   height: 110,
                                                   fit: BoxFit.contain,
                                                 ),
-
-                                                // العلامة الصح (icTrue)
                                                 Image.asset(
                                                   ImageAssets.icTrue,
                                                   width: 60,
@@ -122,7 +96,7 @@ class MobileNumConfirmed extends StatelessWidget {
                                           const SizedBox(height: 24),
 
                                           // =========================
-                                          // العنوان: Confirm mobile phone
+                                          // العنوان
                                           // =========================
                                           const Text(
                                             "Confirm mobile phone",
@@ -137,7 +111,7 @@ class MobileNumConfirmed extends StatelessWidget {
                                           const SizedBox(height: 10),
 
                                           // =========================
-                                          // الوصف اللي تحت العنوان
+                                          // الوصف
                                           // =========================
                                           const Text(
                                             "The mobile number has been\nconfirmed to be active.",
@@ -153,56 +127,17 @@ class MobileNumConfirmed extends StatelessWidget {
                                           const Spacer(),
 
                                           // =========================
-                                          // زر Done (بنفس Gradient بتاع ColorsManager.blue)
+                                          // زر Done
                                           // =========================
-                                          SizedBox(
-                                            width: 238,
-                                            height: 44,
-                                            child: DecoratedBox(
-                                              decoration: BoxDecoration(
-                                                gradient: ColorsManager.blue,
-                                                borderRadius:
-                                                BorderRadius.circular(12),
-                                              ),
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  // =========================
-                                                  // هنا هتحددي هنروح فين بعد التأكيد
-                                                  // مثال (لو عايزة ترجعي Login):
-                                                  // Navigator.pushNamedAndRemoveUntil(
-                                                  //   context,
-                                                  //   RoutesManager.login,
-                                                  //   (route) => false,
-                                                  // );
-                                                  // =========================
-
-                                                  // TODO: غيّري الوجهة حسب الـ Flow عندك
-                                                  Navigator.pushNamed(
-                                                    context,
-                                                    RoutesManager.studentRegistrationRoute,
-                                                  );
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                  Colors.transparent,
-                                                  shadowColor:
-                                                  Colors.transparent,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        12),
-                                                  ),
-                                                ),
-                                                child: const Text(
-                                                  "Done",
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                          CustomPrimaryButton(
+                                            text: "Done",
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                context,
+                                                RoutesManager
+                                                    .studentRegistrationRoute,
+                                              );
+                                            },
                                           ),
 
                                           const SizedBox(height: 160),
@@ -217,7 +152,7 @@ class MobileNumConfirmed extends StatelessWidget {
                         ),
 
                         // =========================
-                        // مفيش نص تحت الكارد في التصميم ده
+                        // مفيش نص تحت الكارد في التصميم
                         // =========================
                       ],
                     ),

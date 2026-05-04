@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smartkids_gurad/core/resources/colors_manager.dart';
-import '../../core/resources/assets_manager.dart';
-import '../../core/routes_manager.dart';
+import 'package:smartkids_gurad/core/resources/assets_manager.dart';
+import 'package:smartkids_gurad/core/routes_manager.dart';
+import 'package:smartkids_gurad/core/widgets/auth_card_container.dart';
+import 'package:smartkids_gurad/core/widgets/custom_primary_button.dart';
 
 class ChangeDone extends StatelessWidget {
   const ChangeDone({super.key});
@@ -23,7 +25,7 @@ class ChangeDone extends StatelessWidget {
 
         child: SafeArea(
           // =========================
-          // نفس نظام الـ Responsive اللي عندك (علشان يطابق الفيجما)
+          // نفس نظام الـ Responsive اللي عندك
           // =========================
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -34,57 +36,33 @@ class ChangeDone extends StatelessWidget {
                     child: Column(
                       children: [
                         // =========================
-                        // الكارد الأساسي (يكبر/يصغر تلقائي)
+                        // الكارد الأساسي
                         // =========================
                         Expanded(
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: Padding(
-                              // مسافة بسيطة من فوق
                               padding: EdgeInsets.only(
                                 top: MediaQuery.of(context).size.height * 0.03,
                               ),
-
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.88,
                                 height: MediaQuery.of(context).size.height * 0.83,
 
-                                // =========================
-                                // يحافظ على مقاسات الفيجما بدون تشويه
-                                // =========================
                                 child: FittedBox(
                                   fit: BoxFit.contain,
                                   child: SizedBox(
-                                    // =========================
-                                    // مقاس الكارد الأصلي في Figma
-                                    // =========================
                                     width: 307,
                                     height: 665,
-                                    child: Container(
-                                      // بادينج داخلي للكارد
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 22,
-                                        vertical: 22,
-                                      ),
 
-                                      // شكل الكارد (زوايا + ظل)
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(24),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(0.08),
-                                            blurRadius: 30,
-                                            offset: const Offset(0, 14),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // =========================
-                                      // محتوى الكارد
-                                      // =========================
+                                    // =========================
+                                    // هنا استخدمنا AuthCardContainer
+                                    // بدل الـ Container الأبيض المتكرر
+                                    // =========================
+                                    child: AuthCardContainer(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                         children: [
                                           const SizedBox(height: 40),
 
@@ -149,39 +127,15 @@ class ChangeDone extends StatelessWidget {
                                           // =========================
                                           // زر Done
                                           // =========================
-                                          SizedBox(
-                                            width: 238,
-                                            height: 44,
-                                            child: DecoratedBox(
-                                              decoration: BoxDecoration(
-                                                gradient: ColorsManager.blue,
-                                                borderRadius: BorderRadius.circular(12),
-                                              ),
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.pushNamedAndRemoveUntil(
-                                                    context,
-                                                    RoutesManager.homeScreen,
-                                                        (route) => false,
-                                                  );
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.transparent,
-                                                  shadowColor: Colors.transparent,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(12),
-                                                  ),
-                                                ),
-                                                child: const Text(
-                                                  "Done",
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                          CustomPrimaryButton(
+                                            text: "Done",
+                                            onPressed: () {
+                                              Navigator.pushNamedAndRemoveUntil(
+                                                context,
+                                                RoutesManager.homeScreen,
+                                                    (route) => false,
+                                              );
+                                            },
                                           ),
 
                                           const SizedBox(height: 160),

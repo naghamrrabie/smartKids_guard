@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smartkids_gurad/core/resources/colors_manager.dart';
-
 import 'notification_filter_row..dart';
+
 
 /// =======================================================
 /// Widget مسؤول عن الهيدر العلوي في شاشة Notification
@@ -38,6 +38,10 @@ class NotificationHeader extends StatelessWidget {
       /// شكل الهيدر
       decoration: BoxDecoration(
         gradient: ColorsManager.blue,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
       ),
 
       child: SafeArea(

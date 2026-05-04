@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smartkids_gurad/core/resources/colors_manager.dart';
-import '../../core/resources/assets_manager.dart';
-import '../../core/routes_manager.dart' show RoutesManager;
+import 'package:smartkids_gurad/core/resources/assets_manager.dart';
+import 'package:smartkids_gurad/core/routes_manager.dart' show RoutesManager;
+import 'package:smartkids_gurad/core/widgets/custom_outlined_button.dart';
+import 'package:smartkids_gurad/core/widgets/custom_primary_button.dart';
+import 'package:smartkids_gurad/core/widgets/custom_text_form_field.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -62,7 +65,6 @@ class _LoginState extends State<Login> {
             colors: [ColorsManager.lightBlue, Colors.white],
           ),
         ),
-
         child: SafeArea(
           // =========================
           // LayoutBuilder + Scroll علشان تمنع overflow
@@ -115,7 +117,6 @@ class _LoginState extends State<Login> {
                                           ),
                                         ],
                                       ),
-
                                       child: Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -171,122 +172,63 @@ class _LoginState extends State<Login> {
                                           const SizedBox(height: 18),
 
                                           // =========================
-                                          // عنوان Phone Number
+                                          // Phone Number
                                           // =========================
-                                          const Text(
-                                            "Phone Number",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 6),
-
-                                          // =========================
-                                          // حقل Phone Number
-                                          // =========================
-                                          Center(
-                                            child: SizedBox(
-                                              width: 252,
-                                              height: 42,
-                                              child: TextField(
-                                                controller: phoneController,
-                                                keyboardType:
-                                                TextInputType.phone,
-
-                                                /// يمنع كتابة أكثر من 12 رقم
-                                                maxLength: 12,
-
-                                                /// يخفي عداد maxLength تحت الحقل
-                                                buildCounter: (
-                                                    context, {
-                                                      required currentLength,
-                                                      required isFocused,
-                                                      maxLength,
-                                                    }) =>
-                                                null,
-
-                                                onChanged: (value) {
-                                                  /// أول ما المستخدم يبدأ يكتب بشكل صحيح نشيل الأحمر
-                                                  if (phoneError) {
-                                                    setState(() {
-                                                      phoneError =
-                                                          value.trim().length !=
-                                                              12;
-                                                    });
-                                                  }
-                                                },
-
-                                                decoration: _fieldDecoration(
-                                                  hint: "01060621021",
-                                                  prefixAsset:
-                                                  ImageAssets.icPhone,
-                                                  prefixSize: 24,
-                                                  suffix: null,
-                                                  isError: phoneError,
-                                                ),
-                                              ),
-                                            ),
+                                          CustomTextFormField(
+                                            label: "Phone Number",
+                                            hint: "01060621021",
+                                            prefixAsset: ImageAssets.icPhone,
+                                            prefixSize: 24,
+                                            controller: phoneController,
+                                            keyboardType: TextInputType.phone,
+                                            maxLength: 12,
+                                            isError: phoneError,
+                                            onChanged: (value) {
+                                              if (phoneError) {
+                                                setState(() {
+                                                  phoneError =
+                                                      value.trim().length != 12;
+                                                });
+                                              }
+                                            },
                                           ),
 
                                           const SizedBox(height: 14),
 
                                           // =========================
-                                          // عنوان Password
+                                          // Password
                                           // =========================
-                                          const Text(
-                                            "Password",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 6),
-
-                                          // =========================
-                                          // حقل Password
-                                          // =========================
-                                          Center(
-                                            child: SizedBox(
-                                              width: 252,
-                                              height: 42,
-                                              child: TextField(
-                                                controller: passwordController,
-                                                obscureText: obscurePassword,
-                                                onChanged: (value) {
-                                                  if (passwordError) {
-                                                    setState(() {
-                                                      passwordError = value
-                                                          .trim()
-                                                          .isEmpty;
-                                                    });
-                                                  }
-                                                },
-                                                decoration: _fieldDecoration(
-                                                  hint: "**********",
-                                                  prefixAsset:
-                                                  ImageAssets.icPassword,
-                                                  prefixSize: 20,
-                                                  isError: passwordError,
-                                                  suffix: IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        obscurePassword =
-                                                        !obscurePassword;
-                                                      });
-                                                    },
-                                                    icon: Image.asset(
-                                                      ImageAssets.icEye,
-                                                      width: 20,
-                                                      height: 20,
-                                                      fit: BoxFit.contain,
-                                                      color: ColorsManager
-                                                          .greyText,
-                                                    ),
-                                                  ),
-                                                ),
+                                          CustomTextFormField(
+                                            label: "Password",
+                                            hint: "**********",
+                                            prefixAsset:
+                                            ImageAssets.icPassword,
+                                            prefixSize: 20,
+                                            controller: passwordController,
+                                            obscureText: obscurePassword,
+                                            isError: passwordError,
+                                            onChanged: (value) {
+                                              if (passwordError) {
+                                                setState(() {
+                                                  passwordError =
+                                                      value.trim().isEmpty;
+                                                });
+                                              }
+                                            },
+                                            suffix: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  obscurePassword =
+                                                  !obscurePassword;
+                                                });
+                                              },
+                                              icon: Image.asset(
+                                                ImageAssets.icEye,
+                                                width: 20,
+                                                height: 20,
+                                                fit: BoxFit.contain,
+                                                color:
+                                                ColorsManager.greyText,
                                               ),
                                             ),
                                           ),
@@ -295,7 +237,6 @@ class _LoginState extends State<Login> {
 
                                           // =========================
                                           // Remember me + Forget Password
-                                          // الاتنين في سطر واحد
                                           // =========================
                                           Row(
                                             children: [
@@ -312,8 +253,8 @@ class _LoginState extends State<Login> {
                                                   activeColor:
                                                   ColorsManager.bluee,
                                                   side: const BorderSide(
-                                                    color: ColorsManager
-                                                        .greyBorder,
+                                                    color:
+                                                    ColorsManager.greyBorder,
                                                   ),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
@@ -324,12 +265,9 @@ class _LoginState extends State<Login> {
                                               const SizedBox(width: 8),
                                               const Text(
                                                 "Remember me",
-                                                style: TextStyle(fontSize: 14),
+                                                style: TextStyle(fontSize: 11),
                                               ),
                                               const Spacer(),
-
-                                              /// هنا شيلنا الـ Flexible وخففنا padding الزرار
-                                              /// علشان النص يفضل في سطر واحد
                                               TextButton(
                                                 onPressed: () {
                                                   Navigator.pushNamed(
@@ -348,7 +286,7 @@ class _LoginState extends State<Login> {
                                                 child: const Text(
                                                   "Forget Password?",
                                                   style: TextStyle(
-                                                    fontSize: 13,
+                                                    fontSize: 11,
                                                     color:
                                                     ColorsManager.bluee,
                                                   ),
@@ -363,42 +301,10 @@ class _LoginState extends State<Login> {
                                           // زر Login
                                           // =========================
                                           Center(
-                                            child: SizedBox(
-                                              width: 238,
-                                              height: 44,
-                                              child: DecoratedBox(
-                                                decoration: BoxDecoration(
-                                                  gradient:
-                                                  ColorsManager.blue,
-                                                  borderRadius:
-                                                  BorderRadius.circular(12),
-                                                ),
-                                                child: ElevatedButton(
-                                                  onPressed: _validateAndLogin,
-                                                  style:
-                                                  ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                    Colors.transparent,
-                                                    shadowColor:
-                                                    Colors.transparent,
-                                                    shape:
-                                                    RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          12),
-                                                    ),
-                                                  ),
-                                                  child: const Text(
-                                                    "Login",
-                                                    style: TextStyle(
-                                                      fontSize: 17,
-                                                      fontWeight:
-                                                      FontWeight.w700,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
+                                            child: CustomPrimaryButton(
+                                              text: "Login",
+                                              onPressed: _validateAndLogin,
+                                              fontSize: 17,
                                             ),
                                           ),
 
@@ -411,24 +317,26 @@ class _LoginState extends State<Login> {
                                             children: const [
                                               Expanded(
                                                 child: Divider(
-                                                  color: ColorsManager
-                                                      .greyBorder,
+                                                  color:
+                                                  ColorsManager.greyBorder,
                                                   thickness: 1,
                                                 ),
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
+                                                  horizontal: 10,
+                                                ),
                                                 child: Text(
                                                   "Or",
-                                                  style:
-                                                  TextStyle(fontSize: 15),
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                  ),
                                                 ),
                                               ),
                                               Expanded(
                                                 child: Divider(
-                                                  color: ColorsManager
-                                                      .greyBorder,
+                                                  color:
+                                                  ColorsManager.greyBorder,
                                                   thickness: 1,
                                                 ),
                                               ),
@@ -441,42 +349,15 @@ class _LoginState extends State<Login> {
                                           // زر Create New Account
                                           // =========================
                                           Center(
-                                            child: SizedBox(
-                                              width: 238,
-                                              height: 44,
-                                              child: OutlinedButton(
-                                                onPressed: () {
-                                                  Navigator.pushNamed(
-                                                    context,
-                                                    RoutesManager
-                                                        .createAccountRoute,
-                                                  );
-                                                },
-                                                style: OutlinedButton.styleFrom(
-                                                  backgroundColor:
-                                                  const Color(0xFFFAFAFA),
-                                                  side: const BorderSide(
-                                                    color: ColorsManager
-                                                        .greyBorder,
-                                                    width: 1,
-                                                  ),
-                                                  shape:
-                                                  RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        12),
-                                                  ),
-                                                ),
-                                                child: const Text(
-                                                  "Create New Account",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
+                                            child: CustomOutlinedButton(
+                                              text: "Create New Account",
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  RoutesManager
+                                                      .createAccountRoute,
+                                                );
+                                              },
                                             ),
                                           ),
                                         ],
@@ -510,73 +391,6 @@ class _LoginState extends State<Login> {
               );
             },
           ),
-        ),
-      ),
-    );
-  }
-
-  // =========================
-  // ديكور الحقول بدون تغيير الـ UI
-  // =========================
-  InputDecoration _fieldDecoration({
-    required String hint,
-    required String prefixAsset,
-    required double prefixSize,
-    required Widget? suffix,
-    required bool isError,
-  }) {
-    return InputDecoration(
-      isDense: true,
-      filled: true,
-      fillColor: Colors.white,
-
-      // النص التلميحي داخل الحقل
-      hintText: hint,
-      hintStyle: const TextStyle(
-        color: ColorsManager.greyText,
-        fontSize: 12,
-      ),
-
-      // أيقونة قبل النص
-      prefixIcon: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 8),
-        child: Image.asset(
-          prefixAsset,
-          width: prefixSize,
-          height: prefixSize,
-          fit: BoxFit.contain,
-          color: ColorsManager.greyText,
-        ),
-      ),
-      prefixIconConstraints: const BoxConstraints(
-        minWidth: 40,
-        minHeight: 42,
-      ),
-
-      // أيقونة بعد النص
-      suffixIcon: suffix,
-
-      // بادينج النص داخل الحقل
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 10,
-      ),
-
-      // البوردر العادي
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(
-          color: isError ? Colors.red : ColorsManager.greyBorder,
-          width: 1,
-        ),
-      ),
-
-      // البوردر عند الضغط
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(
-          color: isError ? Colors.red : ColorsManager.bluee,
-          width: 1,
         ),
       ),
     );

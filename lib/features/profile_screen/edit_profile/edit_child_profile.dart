@@ -103,6 +103,7 @@ class EditChildProfile extends StatelessWidget {
 
 /// =======================================================
 /// Header الخاص بشاشة EditChildProfile
+/// بنفس شكل هيدر Profile&Setting + دوران من تحت
 /// =======================================================
 class _EditChildProfileHeader extends StatelessWidget {
   const _EditChildProfileHeader();
@@ -110,11 +111,15 @@ class _EditChildProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      /// ارتفاع الهيدر dynamic حسب الـ status bar
-      height: MediaQuery.of(context).padding.top + 90,
+      /// نفس ارتفاع الهيدر المستخدم في الشاشات التانية
+      height: 130,
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: ColorsManager.blue,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
       ),
       child: SafeArea(
         bottom: false,
@@ -134,7 +139,7 @@ class _EditChildProfileHeader extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 4),
+              const SizedBox(width: 6),
 
               /// عنوان الصفحة
               const Expanded(
@@ -142,7 +147,7 @@ class _EditChildProfileHeader extends StatelessWidget {
                   'Edit Profile',
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.normal,
                     color: Colors.black,
                   ),
                 ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:smartkids_gurad/features/login/login.dart';
 import 'package:smartkids_gurad/features/onboarding/onboarding.dart';
-import 'package:smartkids_gurad/features/profile_screen/AboutSmartKidsGuard.dart';
-import 'package:smartkids_gurad/features/profile_screen/HelpSupportScreen.dart';
+import 'package:smartkids_gurad/features/profile_screen/about_smartkids_guard.dart';
+import 'package:smartkids_gurad/features/profile_screen/help_support_screen.dart';
 import 'package:smartkids_gurad/features/splash/splash.dart';
 import '../features/Notification/NotificationScreen.dart';
 import '../features/confirm_mobile_num/confirm_mobile_num.dart';
 import '../features/confirm_mobile_num/mobile_num_confirmed.dart';
-import '../features/cteate_account/create_account.dart';
+import '../features/create_account/create_account.dart';
 import '../features/forget_password/change_done.dart';
 import '../features/forget_password/code_reset.dart';
 import '../features/forget_password/ent_new_password.dart';

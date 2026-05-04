@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smartkids_gurad/core/resources/colors_manager.dart';
-import '../../core/resources/assets_manager.dart';
-import '../../core/routes_manager.dart';
+import 'package:smartkids_gurad/core/resources/assets_manager.dart';
+import 'package:smartkids_gurad/core/routes_manager.dart';
+import 'package:smartkids_gurad/core/widgets/bottom_action_text.dart';
+import 'package:smartkids_gurad/core/widgets/custom_primary_button.dart';
+import 'package:smartkids_gurad/core/widgets/info_note_box.dart';
+
+import '../../core/widgets/custom_dropdown_field.dart';
 
 class StudentRegistration extends StatefulWidget {
   const StudentRegistration({super.key});
@@ -68,12 +73,10 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                               padding: EdgeInsets.only(
                                 top: MediaQuery.of(context).size.height * 0.03,
                               ),
-
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.88,
                                 height:
                                 MediaQuery.of(context).size.height * 0.83,
-
                                 child: FittedBox(
                                   fit: BoxFit.contain,
                                   child: SizedBox(
@@ -96,7 +99,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                                           ),
                                         ],
                                       ),
-
                                       child: Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -156,7 +158,8 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                                               child: TextField(
                                                 decoration: _fieldDecoration(
                                                   hint: "Enter First name",
-                                                  prefixAsset: ImageAssets.icName,
+                                                  prefixAsset:
+                                                  ImageAssets.icName,
                                                   prefixSize: 20,
                                                   suffix: null,
                                                 ),
@@ -185,7 +188,8 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                                               child: TextField(
                                                 decoration: _fieldDecoration(
                                                   hint: "Enter Last name",
-                                                  prefixAsset: ImageAssets.icName,
+                                                  prefixAsset:
+                                                  ImageAssets.icName,
                                                   prefixSize: 20,
                                                   suffix: null,
                                                 ),
@@ -216,7 +220,8 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                                                 TextInputType.number,
                                                 decoration: _fieldDecoration(
                                                   hint: "Enter Age",
-                                                  prefixAsset: ImageAssets.icAge,
+                                                  prefixAsset:
+                                                  ImageAssets.icAge,
                                                   prefixSize: 18,
                                                   suffix: null,
                                                 ),
@@ -228,61 +233,17 @@ class _StudentRegistrationState extends State<StudentRegistration> {
 
                                           // =========================
                                           // School Name
-                                          // Dropdown فعلي
                                           // =========================
-                                          const Text(
-                                            "School Name",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 6),
-                                          Center(
-                                            child: SizedBox(
-                                              width: 252,
-                                              height: 42,
-                                              child:
-                                              DropdownButtonFormField<String>(
-                                                value: selectedSchool,
-                                                icon: const Icon(
-                                                  Icons
-                                                      .keyboard_arrow_down_rounded,
-                                                  color:
-                                                  ColorsManager.greyText,
-                                                  size: 22,
-                                                ),
-                                                decoration: _dropdownDecoration(
-                                                  hint: "Select School",
-                                                ),
-                                                items: schoolOptions
-                                                    .map((school) {
-                                                  return DropdownMenuItem<
-                                                      String>(
-                                                    value: school,
-                                                    child: Text(
-                                                      school,
-                                                      style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    selectedSchool = value;
-                                                  });
-                                                },
-
-                                                /// ده بيخلي القائمة المنسدلة شكلها قريب من اللي في الصورة
-                                                dropdownColor: Colors.white,
-                                                borderRadius:
-                                                BorderRadius.circular(12),
-                                                menuMaxHeight: 180,
-                                              ),
-                                            ),
+                                          CustomDropdownField(
+                                            label: "School Name",
+                                            hint: "Select School",
+                                            value: selectedSchool,
+                                            items: schoolOptions,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedSchool = value;
+                                              });
+                                            },
                                           ),
 
                                           const SizedBox(height: 10),
@@ -322,36 +283,11 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                                           // =========================
                                           // Info Box
                                           // =========================
-                                          Center(
-                                            child: Container(
-                                              width: 252,
-                                              padding:
-                                              const EdgeInsets.symmetric(
-                                                horizontal: 12,
-                                                vertical: 8,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: ColorsManager
-                                                    .greyBackground,
-                                                borderRadius:
-                                                BorderRadius.circular(10),
-                                                border: Border.all(
-                                                  color: ColorsManager.greyBorder,
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              child: const Text(
-                                                "💡 This information will be linked to your\n"
-                                                    "child's RFID tag for tracking and safety\n"
-                                                    "monitoring.",
-                                                style: TextStyle(
-                                                  fontSize: 11,
-                                                  color: ColorsManager.greyText,
-                                                  fontWeight: FontWeight.w500,
-                                                  height: 1.2,
-                                                ),
-                                              ),
-                                            ),
+                                          const InfoNoteBox(
+                                            text:
+                                            "This information will be linked to your\n"
+                                                "child's RFID tag for tracking and safety\n"
+                                                "monitoring.",
                                           ),
 
                                           const SizedBox(height: 24),
@@ -360,48 +296,16 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                                           // زر Register Student
                                           // =========================
                                           Center(
-                                            child: SizedBox(
-                                              width: 238,
-                                              height: 44,
-                                              child: DecoratedBox(
-                                                decoration: BoxDecoration(
-                                                  gradient: ColorsManager.blue,
-                                                  borderRadius:
-                                                  BorderRadius.circular(12),
-                                                ),
-                                                child: ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator
-                                                        .pushNamedAndRemoveUntil(
-                                                      context,
-                                                      RoutesManager.homeScreen,
-                                                          (route) => false,
-                                                    );
-                                                  },
-                                                  style:
-                                                  ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                    Colors.transparent,
-                                                    shadowColor:
-                                                    Colors.transparent,
-                                                    shape:
-                                                    RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          12),
-                                                    ),
-                                                  ),
-                                                  child: const Text(
-                                                    "Reigster Student",
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                      FontWeight.w700,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
+                                            child: CustomPrimaryButton(
+                                              text: "Reigster Student",
+                                              onPressed: () {
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                  context,
+                                                  RoutesManager.homeScreen,
+                                                      (route) => false,
+                                                );
+                                              },
                                             ),
                                           ),
                                         ],
@@ -419,34 +323,15 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                         // =========================
                         Padding(
                           padding: const EdgeInsets.only(bottom: 14),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Already have an child? ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: ColorsManager.greyText,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RoutesManager.studentDevice,
-                                  );
-                                },
-                                child: const Text(
-                                  "Student Device",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: ColorsManager.bluee,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          child: BottomActionText(
+                            normalText: "Already have an child? ",
+                            actionText: "Student Device",
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                RoutesManager.studentDevice,
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -496,42 +381,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       suffixIcon: suffix,
       contentPadding: const EdgeInsets.symmetric(
         horizontal: 10,
-        vertical: 10,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(
-          color: ColorsManager.greyBorder,
-          width: 1,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(
-          color: ColorsManager.bluee,
-          width: 1,
-        ),
-      ),
-    );
-  }
-
-  // =========================
-  // ديكور خاص بالـ Dropdown
-  // =========================
-  static InputDecoration _dropdownDecoration({
-    required String hint,
-  }) {
-    return InputDecoration(
-      isDense: true,
-      filled: true,
-      fillColor: Colors.white,
-      hintText: hint,
-      hintStyle: const TextStyle(
-        color: ColorsManager.greyText,
-        fontSize: 12,
-      ),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 12,
         vertical: 10,
       ),
       enabledBorder: OutlineInputBorder(

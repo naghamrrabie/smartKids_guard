@@ -108,6 +108,8 @@ class EditProfileScreen extends StatelessWidget {
 
 /// =======================================================
 /// Header الخاص بشاشة Edit Profile
+/// بنفس شكل الهيدر المستخدم في Profile&Setting
+/// + دوران من تحت
 /// =======================================================
 class _EditProfileHeader extends StatelessWidget {
   const _EditProfileHeader();
@@ -115,18 +117,25 @@ class _EditProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      /// ارتفاع الهيدر dynamic عشان يناسب الـ status bar
-      height: MediaQuery.of(context).padding.top + 90,
+      /// نفس ارتفاع هيدر Profile&Setting
+      height: 130,
+
+      /// ياخد عرض الشاشة كله
       width: double.infinity,
 
       /// شكل الهيدر
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: ColorsManager.blue,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
       ),
 
       child: SafeArea(
         bottom: false,
         child: Padding(
+          /// نفس الـ padding المستخدم هناك
           padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
           child: Row(
             children: [
@@ -142,7 +151,7 @@ class _EditProfileHeader extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 4),
+              const SizedBox(width: 6),
 
               /// عنوان الصفحة
               const Expanded(
@@ -150,7 +159,7 @@ class _EditProfileHeader extends StatelessWidget {
                   'Edit Profile',
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.normal,
                     color: Colors.black,
                   ),
                 ),
@@ -181,12 +190,12 @@ class _EditProfileHeader extends StatelessWidget {
 }
 
 /// =======================================================
-              /// كارت صورة البروفايل
+/// كارت صورة البروفايل
 /// فيه:
 /// - الصورة
-                    /// - أيقونة الكاميرا
-           /// - عنوانProfile Photo
-                      /// - نص توضيحي
+/// - أيقونة الكاميرا
+/// - عنوان Profile Photo
+/// - نص توضيحي
 /// =======================================================
 class _ProfilePhotoCard extends StatelessWidget {
   const _ProfilePhotoCard();
@@ -255,7 +264,6 @@ class _ProfilePhotoCard extends StatelessWidget {
                       ImageAssets.icCamera,
                       width: 55,
                       height: 55,
-
                     ),
                   ),
                 ),
@@ -427,9 +435,9 @@ class _ProfileInputField extends StatelessWidget {
   }
 }
 
-       /// =======================================================
-                  /// زرا Save Changes
-      /// =======================================================
+/// =======================================================
+/// زر Save Changes
+/// =======================================================
 class _SaveChangesButton extends StatelessWidget {
   const _SaveChangesButton();
 
