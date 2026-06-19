@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "758390232498",
+    "project_id": "smart-kids-guard-f4d9f",
+    "storage_bucket": "smart-kids-guard-f4d9f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758390232498:android:0fba90039b6d22ab6e40ab",
+        "android_client_info": {
+          "package_name": "com.example.smartkids_gurad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB5m67WZsHW3WwEhWMUSzSdUJmXjcVgv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
