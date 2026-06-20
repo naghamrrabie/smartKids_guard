@@ -22,6 +22,18 @@ class SafeZoneAddError extends SafeZoneState {
   SafeZoneAddError(this.error);
 }
 
+// ... (باقي الـ States بتاعتك زي ما هي)
+
+class SafeZoneDeleteLoading extends SafeZoneState {}
+class SafeZoneDeleteSuccess extends SafeZoneState {
+  final String message;
+  SafeZoneDeleteSuccess(this.message);
+}
+class SafeZoneDeleteError extends SafeZoneState {
+  final String error;
+  SafeZoneDeleteError(this.error);
+}
+
 class SafeZoneCubit extends Cubit<SafeZoneState> {
   final SafeZoneRepo safeZoneRepo;
 
@@ -72,6 +84,20 @@ class SafeZoneCubit extends Cubit<SafeZoneState> {
       fetchSafeZones();
     } catch (e) {
       emit(SafeZoneAddError(e.toString()));
+    }
+  }
+  // 💡 ضيف الدالة دي جوه SafeZoneCubit
+  Future<void> deleteSafeZone(int zoneId) async {
+    emit(SafeZoneDeleteLoading());
+    try {
+      await safeZoneRepo.deleteSafeZone(zoneId);
+
+      emit(SafeZoneDeleteSuccess('تم مسح المنطقة بنجاح!'));
+
+      // نرجع نحدث الداتا من السيرفر عشان اللستة تتحدث في ساعتها
+      fetchSafeZones();
+    } catch (e) {
+      emit(SafeZoneDeleteError(e.toString()));
     }
   }
 }

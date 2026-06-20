@@ -59,4 +59,22 @@ class SafeZoneRepo {
       throw 'حدث خطأ: ${e.toString()}';
     }
   }
+  // 💡 ضيف الدالة دي جوه SafeZoneRepo
+  Future<void> deleteSafeZone(int id) async {
+    try {
+      final response = await dio.delete('/api/SafeZone/$id');
+
+      if (response.statusCode != 200) {
+        throw 'حدث خطأ أثناء المسح';
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw 'حدث خطأ في الخادم: ${e.response?.statusCode}';
+      } else {
+        throw 'لا يوجد اتصال بالإنترنت.';
+      }
+    } catch (e) {
+      throw 'حدث خطأ: ${e.toString()}';
+    }
+  }
 }

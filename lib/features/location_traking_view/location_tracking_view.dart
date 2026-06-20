@@ -263,25 +263,36 @@ class _LocationTrackingViewState extends State<LocationTrackingView> {
                             }
                             Navigator.pushNamed(context, RoutesManager.addSafeZoneScreen, arguments: currentZones)
                                 .then((_) {
-                              // 💡 السطر ده هيشتغل أول ما الشاشة بتاعة الإضافة تتقفل
-                              // هيجبر الشاشة دي إنها تخبط الـ API تاني وتجيب أحدث المناطق!
                               context.read<SafeZoneCubit>().fetchSafeZones();
                             });
                           },
                           child: const Text("Add New", style: TextStyle(color: ColorsManager.bluee)),
-                        ),                      ],
+                        ),
+                      ],
                     ),
                     Expanded(
-                      // 💡 استخدام BlocBuilder لقراءة المناطق الآمنة
-                      child: BlocBuilder<SafeZoneCubit, SafeZoneState>(
+                      // 💡 غيرنا الـ Builder لـ Consumer عشان نطلع رسالة المسح
+                      child: BlocConsumer<SafeZoneCubit, SafeZoneState>(
+                        listenWhen: (previous, current) {
+                          // بنسمع بس لحالات المسح عشان نطلع الـ SnackBar
+                          return current is SafeZoneDeleteSuccess || current is SafeZoneDeleteError;
+                        },
+                        listener: (context, state) {
+                          if (state is SafeZoneDeleteSuccess) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message), backgroundColor: Colors.green));
+                          } else if (state is SafeZoneDeleteError) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error), backgroundColor: Colors.red));
+                          }
+                        },
                         buildWhen: (previous, current) {
+                          // 💡 الشاشة مش هتعمل Rebuild غير في الحالات دي بس، يعني وقت المسح اللستة مش هتختفي
                           return current is SafeZoneLoading ||
                               current is SafeZoneSuccess ||
                               current is SafeZoneError;
                         },
                         builder: (context, state) {
                           if (state is SafeZoneLoading) {
-                            return const Center(child: CircularProgressIndicator());
+                            return const Center(child: CircularProgressIndicator(color: ColorsManager.bluee));
                           } else if (state is SafeZoneError) {
                             return Center(child: Text(state.error, style: const TextStyle(color: Colors.red)));
                           } else if (state is SafeZoneSuccess) {
@@ -294,7 +305,8 @@ class _LocationTrackingViewState extends State<LocationTrackingView> {
                               separatorBuilder: (context, index) => const SizedBox(height: 12),
                               itemBuilder: (context, index) {
                                 final zone = zones[index];
-                                return _buildSafeZoneCard(zone); // باصينا الموديل
+                                // 💡 باصينا الـ context هنا عشان نقدر نكلم الـ Cubit من جوه الكارت
+                                return _buildSafeZoneCard(zone, context);
                               },
                             );
                           }
@@ -313,8 +325,8 @@ class _LocationTrackingViewState extends State<LocationTrackingView> {
   }
 
   // 💡 دالة رسم الكارت مربوطة بالداتا الحقيقية وتغيير الأيقونات والألوان
-  Widget _buildSafeZoneCard(SafeZoneModel zone) {
-    // تحديد الأيقونة واللون بناءً على الـ Type
+// 💡 ضفنا BuildContext context كـ Parameter
+  Widget _buildSafeZoneCard(SafeZoneModel zone, BuildContext context) {
     IconData icon;
     Color iconColor;
 
@@ -327,7 +339,7 @@ class _LocationTrackingViewState extends State<LocationTrackingView> {
       icon = Icons.school;
       iconColor = Colors.green;
     } else {
-      icon = Icons.location_city; // للـ Custom
+      icon = Icons.location_city;
       iconColor = Colors.redAccent;
     }
 
@@ -344,7 +356,6 @@ class _LocationTrackingViewState extends State<LocationTrackingView> {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: () {
-            // 💡 أول ما يدوس، ينفذ الفوكس على المنطقة
             _focusOnSafeZone(zone);
           },
           child: ListTile(
@@ -354,10 +365,26 @@ class _LocationTrackingViewState extends State<LocationTrackingView> {
             ),
             title: Text(zone.name, style: const TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(zone.type, style: const TextStyle(color: Colors.grey)),
-            trailing: const Icon(Icons.shield_outlined, color: Colors.green),
+            // 💡 حطينا الدرع الأخضر وأيقونة المسح الحمرا جنب بعض في Row
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.shield_outlined, color: Colors.green),
+                IconButton(
+                  icon: const Icon(Icons.delete_outline, color: Colors.red),
+                  onPressed: () {
+                    // 💡 التريكة: لو مسحنا المنطقة اللي إحنا عاملين عليها فوكس دلوقتي، الخريطة ترجع للطفل أوتوماتيك
+                    if (!_isFollowingChild && _mapCircles.isNotEmpty && _mapCircles.first.circleId.value == 'zone_${zone.id}') {
+                      _backToChildLocation();
+                    }
+                    // بنكلم السيرفر يمسح
+                    context.read<SafeZoneCubit>().deleteSafeZone(zone.id);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
-  }
-}
+  }}
